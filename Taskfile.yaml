@@ -1,0 +1,13 @@
+version: "3"
+
+tasks:
+  dl-last-firmware:
+    desc: "Download the latest firmware for WeeboKey"
+    vars:
+      GITHUB_TOKEN:
+        sh: gh auth token
+    # Download the latest firmware for WeeboKey from the github actions
+    cmds:
+      - 'curl -s https://api.github.com/repos/batleforc/keyboard-zmk/actions/workflows/build.yml/runs | jq -r ''.workflow_runs[0].artifacts_url'' | xargs curl -s | jq -r ''.artifacts[] | select(.name=="firmware") | .archive_download_url'' | xargs curl -L -o weebokey-firmware.zip -H "Authorization: Bearer {{.GITHUB_TOKEN}}"'
+      - "unzip -o weebokey-firmware.zip -d weebokey-firmware"
+      - "rm weebokey-firmware.zip"
