@@ -8,6 +8,15 @@ tasks:
         sh: gh auth token
     # Download the latest firmware for WeeboKey from the github actions
     cmds:
+      - rm -rf weebokey-firmware
       - 'curl -s https://api.github.com/repos/batleforc/keyboard-zmk/actions/workflows/build.yml/runs | jq -r ''.workflow_runs[0].artifacts_url'' | xargs curl -s | jq -r ''.artifacts[] | select(.name=="firmware") | .archive_download_url'' | xargs curl -L -o weebokey-firmware.zip -H "Authorization: Bearer {{.GITHUB_TOKEN}}"'
       - "unzip -o weebokey-firmware.zip -d weebokey-firmware"
       - "rm weebokey-firmware.zip"
+  cp-left:
+    desc: "Copy the left firmware to the Lily58 build folder"
+    cmds:
+      - "cp weebokey-firmware/lily58_left\ nice_view_adapter\ nice_view-nice_nano_v2-zmk.uf2 /run/media/max/NICENANO/"
+  cp-right:
+    desc: "Copy the right firmware to the Lily58 build folder"
+    cmds:
+      - "cp weebokey-firmware/lily58_right\ nice_view_adapter\ nice_view-nice_nano_v2-zmk.uf2 /run/media/max/NICENANO/"
