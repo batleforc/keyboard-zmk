@@ -8,6 +8,8 @@ https://fkcaps.com/custom/create/language
 
 DSA Profile Keycap
 
+https://github.com/braindefender/KLP-Lame-Keycaps/tree/master
+
 ## layout
 
 https://ergol.org/claviers/compacts/
